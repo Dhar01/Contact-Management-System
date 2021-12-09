@@ -102,31 +102,31 @@ int main()
         switch(choice) {
             case 0: {
                     std::cout << "Thank you for using my project. \n\nRegards,\nLoknath Dhar";
-                    break;
-            }
+            } break;
+
             case 1: {
                     save_contact();
-                    break;
-            }
+            } break;
+
             case 2: {
                     show_all_contacts();
-                    break;
-            }
+            } break;
+
             case 3: {
                     long num{};
                     std::cout << "\nPhone: ";
                     std::cin >> num;
                     display_contact(num);
-                    break;
-            }
+            } break;
+
             case 4: {
                     edit_contact();
-                    break;
-            }
+            } break;
+
             case 5: {
                     delete_contact();
-                    break;
-            }
+            } break;
+            
             default:
                     break;
         }
