@@ -1,11 +1,4 @@
-# Executables
+*
 
-*.out
-*.app
-
-# compiled object files
-
-*.o 
-*.obj
-
-
+!*.cpp
+!*.md
