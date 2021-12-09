@@ -100,21 +100,33 @@ int main()
         std::cin >> choice;
 
         switch(choice) {
-            case 0: std::cout << "Thank you for using my project. \n\nRegards,\nLoknath Dhar";
+            case 0: {
+                    std::cout << "Thank you for using my project. \n\nRegards,\nLoknath Dhar";
                     break;
-            case 1: save_contact();
+            }
+            case 1: {
+                    save_contact();
                     break;
-            case 2: show_all_contacts();
+            }
+            case 2: {
+                    show_all_contacts();
                     break;
-            case 3: long num{};
+            }
+            case 3: {
+                    long num{};
                     std::cout << "\nPhone: ";
                     std::cin >> num;
                     display_contact(num);
                     break;
-            case 4: edit_contact();
+            }
+            case 4: {
+                    edit_contact();
                     break;
-            case 5: delete_contact();
+            }
+            case 5: {
+                    delete_contact();
                     break;
+            }
             default:
                     break;
         }
@@ -127,7 +139,7 @@ int main()
             case 1:
                     continue;
             case 0:
-                    exit();
+                    break;
         }
     }
 
