@@ -1,6 +1,6 @@
 #include <iostream>	// for input output.
 #include <fstream>	// for file management.
-#include <string>
+#include <string>   // for taking string-type value
 
 std::fstream fp;
 
@@ -8,8 +8,8 @@ std::fstream fp;
 class contact
 {
     long phone{}; // for phone number
-    std::string name{};
-    std::string email{};
+    std::string name{}; // for contact name
+    std::string email{};    // for contact email
 
     // creating a new contact
     void create_contact() {
@@ -48,7 +48,7 @@ class contact
     }
 };
 
-// to save contact on the phonebook
+// to save contact information on the phonebook
 void save_contact()
 {
 
@@ -81,6 +81,55 @@ void show_all_contacts()
 // the main program
 int main()
 {
+    for(;;) {
+        std::cout << "\n\t ~~~~~~~~ Contact Management System (Command Line) ~~~~~~~~";
+
+        /* not sure how should I organize this section, 
+            I wrote so many print functions for code readability. */
+        std::cout << "\n\n\t Main Menu:";
+        std::cout << "\n[1] Add new contact";
+        std::cout << "\n[2] List all contacts";
+        std::cout << "\n[3] Search for contact";
+        std::cout << "\n[4] Edit a contact";
+        std::cout << "\n[5] Delete a contact";
+        std::cout << "\n[0] Exit"
+        std::cout << "\n\n";
+
+        std::cout << "Enter your choice: ";
+        int choice{};
+        std::Cin >> choice;
+
+        switch(choice) {
+            case 0: std::cout << "Thank you for using my project. \n\nRegards,\nLoknath Dhar";
+                    break;
+            case 1: save_contact();
+                    break;
+            case 2: show_all_contacts();
+                    break;
+            case 3: int number{};
+                    std::cout << "\nPhone: ";
+                    std::cin >> number;
+                    display_contact(number);
+                    break;
+            case 4: edit_contact();
+                    break;
+            case 5: delete_contact();
+                    break;
+            default:
+                    break;
+        }
+
+        std::cout << "\n\nEnter your choice: \n[1] Main Menu\t[0] Exit\n";
+        int option{} ;
+        std::cin >> option;
+
+        switch(option) {
+            case 1:
+                    continue;
+            case 0:
+                    exit();
+        }
+    }
 
     return 0;
 }
