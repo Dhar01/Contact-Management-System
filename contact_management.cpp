@@ -55,7 +55,7 @@ void save_contact()
 }
 
 // to display contact on the command line
-void display_contact()
+void display_contact(int phone)
 {
 
 }
@@ -92,12 +92,12 @@ int main()
         std::cout << "\n[3] Search for contact";
         std::cout << "\n[4] Edit a contact";
         std::cout << "\n[5] Delete a contact";
-        std::cout << "\n[0] Exit"
+        std::cout << "\n[0] Exit";
         std::cout << "\n\n";
 
         std::cout << "Enter your choice: ";
         int choice{};
-        std::Cin >> choice;
+        std::cin >> choice;
 
         switch(choice) {
             case 0: std::cout << "Thank you for using my project. \n\nRegards,\nLoknath Dhar";
@@ -106,10 +106,10 @@ int main()
                     break;
             case 2: show_all_contacts();
                     break;
-            case 3: int number{};
+            case 3: long num{};
                     std::cout << "\nPhone: ";
-                    std::cin >> number;
-                    display_contact(number);
+                    std::cin >> num;
+                    display_contact(num);
                     break;
             case 4: edit_contact();
                     break;
@@ -120,7 +120,7 @@ int main()
         }
 
         std::cout << "\n\nEnter your choice: \n[1] Main Menu\t[0] Exit\n";
-        int option{} ;
+        int option{};
         std::cin >> option;
 
         switch(option) {
