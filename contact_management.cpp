@@ -1,12 +1,53 @@
 #include <iostream>	// for input output.
 #include <fstream>	// for file management.
-#include <string.h>
+#include <string>
+
+std::fstream fp;
 
 // the contact book class
 class contact
 {
+    long phone{}; // for phone number
+    char name[20], email[30];
+    std::string name{};
+    std::string email{};
 
-}
+    // creating a new contact
+    void create_contact() {
+        std::cout << "Phone: ";
+        std::cin >> phone;
+
+        std::cout << "Name: ";
+        std::getline(std::cin, name);
+
+        std::cout << "Email: ";
+        std::getline(std::cin, email);
+
+        std::cout << "\n";
+    }
+
+    // show contact information
+    void show_contact() {
+        std::cout << "Phone #: " << phone;
+        std::cout << "Name  #: " << name;
+        std::cout << "Email #: " << email;
+    }
+
+    // get the phone number
+    long getPhone() {
+        return phone;
+    }
+
+    // get the contact name
+    std::string getName() {
+        return name;
+    }
+
+    // get email address
+    std::string getEmail() {
+        return email;
+    }
+};
 
 // to save contact on the phonebook
 void save_contact()
