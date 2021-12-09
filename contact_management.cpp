@@ -8,7 +8,6 @@ std::fstream fp;
 class contact
 {
     long phone{}; // for phone number
-    char name[20], email[30];
     std::string name{};
     std::string email{};
 
