@@ -50,6 +50,7 @@ class Contact
     }
 };
 
+// creating an object in order to call the class function
 Contact contact;
 
 // to save contact information on the phonebook
@@ -59,7 +60,7 @@ void save_contact()
     fp.open("contactList.txt", std::ios::out | std::ios::app);
     contact.create_contact();
 
-    fp.write((char*)&contact,std::size(contact));
+    fp.write((std::string)&contact,std::size(contact));
     fp.close();
 
     std::cout << std::endl << std::endl << "Contact has been successfully created." << "\n";
@@ -74,7 +75,7 @@ void display_contact(long phone)
 
     fp.open("contactList.txt", std::ios::in);
 
-    while(fp.read((char*) &contact, std::size(contact))) {
+    while(fp.read((std::string) &contact, std::size(contact))) {
         if (contact.getPhone() == phone) {
             contact.show_contact();
             found = true;
@@ -100,9 +101,9 @@ void delete_contact()
     fp2.open("Temp.txt", std::ios::out);
     fp.seekg(0, std::ios::beg);
 
-    while (fp.read((char*)&contact, std::size(contact))) {
+    while (fp.read((std::string)&contact, std::size(contact))) {
         if (contact.getPhone() != number) {
-            fp2.write((char*)&contact, std::size(contact));
+            fp2.write((std::string)&contact, std::size(contact));
         }
     }
 
@@ -126,14 +127,14 @@ void edit_contact()
 
     fp.open("contactList.txt", std::ios::in | std::ios::out);
 
-    while(fp.read((char*)&contact, std::size(contact)) && found == false) {
+    while(fp.read((std::string)&contact, std::size(contact)) && found == false) {
         if (contact.getPhone() == number) {
             contact.show_contact();
             std::cout << "\nPlease enter the new Details of contact: " << std::endl;
             contact.create_contact();
             int pos=-1*std::size(contact);
             fp.seekp(pos, std::ios::cur);
-            fp.write((char*)&contact, std::size(contact));
+            fp.write((std::string)&contact, std::size(contact));
             
             std::cout << std::endl << "Contact successfully update!";
             found = true;
@@ -154,7 +155,7 @@ void show_all_contacts()
     std::cout << "\n\n # List of Contacts # \n\n";
     fp.open("contactList.txt", std::ios::in);
 
-    while(fp.read((char*)&contact, std::size(contact))) {
+    while(fp.read((std::string)&contact, std::size(contact))) {
         contact.show_contact();
         std::cout << std::endl;
     }
