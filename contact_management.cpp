@@ -5,11 +5,13 @@
 std::fstream fp;
 
 // the contact book class
-class contact
+class Contact
 {
     long phone{}; // for phone number
     std::string name{}; // for contact name
     std::string email{};    // for contact email
+
+    public:
 
     // creating a new contact
     void create_contact() {
@@ -48,12 +50,14 @@ class contact
     }
 };
 
+Contact contact;
+
 // to save contact information on the phonebook
 void save_contact()
 {
     // opening file to read and append -> saving the information
     fp.open("contactList.txt", std::ios::out | std::ios::app);
-    contact::create_contact();
+    contact.create_contact();
 
     fp.write((char*)&contact,std::size(contact));
     fp.close();
@@ -71,8 +75,8 @@ void display_contact(long phone)
     fp.open("contactList.txt", std::ios::in);
 
     while(fp.read((char*) &contact, std::size(contact))) {
-        if (contact::getPhone() == phone) {
-            contact::show_contact();
+        if (contact.getPhone() == phone) {
+            contact.show_contact();
             found = true;
         }
     }
@@ -123,10 +127,10 @@ void edit_contact()
     fp.open("contactList.txt", std::ios::in | std::ios::out);
 
     while(fp.read((char*)&contact, std::size(contact)) && found == false) {
-        if (contact::getPhone() == number) {
-            contact::show_contact();
+        if (contact.getPhone() == number) {
+            contact.show_contact();
             std::cout << "\nPlease enter the new Details of contact: " << std::endl;
-            contact::create_contact();
+            contact.create_contact();
             int pos=-1*std::size(contact);
             fp.seekp(pos, std::ios::cur);
             fp.write((char*)&contact, std::size(contact));
@@ -151,7 +155,7 @@ void show_all_contacts()
     fp.open("contactList.txt", std::ios::in);
 
     while(fp.read((char*)&contact, std::size(contact))) {
-        contact::show_contact();
+        contact.show_contact();
         std::cout << std::endl;
     }
 
