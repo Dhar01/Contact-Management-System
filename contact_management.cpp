@@ -51,35 +51,115 @@ class contact
 // to save contact information on the phonebook
 void save_contact()
 {
+    // opening file to read and append -> saving the information
+    fp.open("contactList.txt", std::ios::out | std::ios::app);
+    contact::create_contact();
+
+    fp.write((char*)&contact,std::size(contact));
+    fp.close();
+
+    std::cout << std::endl << std::endl << "Contact has been successfully created." << "\n";
 
 }
 
 // to display contact on the command line
-void display_contact(int phone)
+void display_contact(long phone)
 {
+    bool found{false};
+    int ch{};
 
+    fp.open("contactList.txt", std::ios::in);
+
+    while(fp.read((char*) &contact, std::size(contact))) {
+        if (contact::getPhone() == phone) {
+            contact::show_contact();
+            found = true;
+        }
+    }
+
+    fp.close();
+
+    if (found == false) {
+        std::cout << "\n\nNo record found!";
+    }
 }
 
 // to delete preferred contact
 void delete_contact()
 {
+    int number{};
+    std::cout << std::endl << "Please, enter the contact #: ";
+    std::cin >> number;
+
+    fp.open("contactList.txt", std::ios::in | std::ios::out);
+    std::fstream fp2;
+    fp2.open("Temp.txt", std::ios::out);
+    fp.seekg(0, std::ios::beg);
+
+    while (fp.read((char*)&contact, std::size(contact))) {
+        if (contact.getPhone() != number) {
+            fp2.write((char*)&contact, std::size(contact));
+        }
+    }
+
+    fp2.close();
+    fp.close();
+
+    remove("contactList.txt");
+    rename("Temp.txt", "contactList.txt");
+    std::cout << std::endl << "Contact deleted." << "\n";
 
 }
 
 // to edit and update the existing contact
 void edit_contact()
 {
+    int number{};
+    bool found{false};
+
+    std::cout << "Edit contact\n---------------\nEnter the number of contact to edit:";
+    std::cin >> number;
+
+    fp.open("contactList.txt", std::ios::in | std::ios::out);
+
+    while(fp.read((char*)&contact, std::size(contact)) && found == false) {
+        if (contact::getPhone() == number) {
+            contact::show_contact();
+            std::cout << "\nPlease enter the new Details of contact: " << std::endl;
+            contact::create_contact();
+            int pos=-1*std::size(contact);
+            fp.seekp(pos, std::ios::cur);
+            fp.write((char*)&contact, std::size(contact));
+            
+            std::cout << std::endl << "Contact successfully update!";
+            found = true;
+        }
+    }
+
+    fp.close();
+
+    if (found == false) {
+        std::cout << std::endl << "Contact not found.";
+    }
 
 }
 
 // to show the list of contacts
 void show_all_contacts()
 {
+    std::cout << "\n\n # List of Contacts # \n\n";
+    fp.open("contactList.txt", std::ios::in);
 
+    while(fp.read((char*)&contact, std::size(contact))) {
+        contact::show_contact();
+        std::cout << std::endl;
+    }
+
+    fp.close();
 }
 
 // the main program
-int main()
+int main(int argc, char *argv[])
 {
     for(;;) {
         std::cout << "\n\t ~~~~~~~~ Contact Management System (Command Line) ~~~~~~~~";
@@ -126,7 +206,7 @@ int main()
             case 5: {
                     delete_contact();
             } break;
-            
+
             default:
                     break;
         }
@@ -142,6 +222,5 @@ int main()
                     break;
         }
     }
-
     return 0;
 }
