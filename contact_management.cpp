@@ -1,15 +1,23 @@
 #include <iostream>	// for input output.
 #include <fstream>	// for file management.
 #include <string>   // for taking string-type value
+#include <cstdlib>  // for std::exit(0), terminating the program instantly
 
 std::fstream fp;
+
+// forward declaration of functions
+void save_contact();
+void search_contact(long phone);
+void delete_contact();
+void edit_contact();
+void show_all_contacts();
 
 // the contact book class
 class Contact
 {
     long phone{}; // for phone number
-    std::string name{}; // for contact name
-    std::string email{};    // for contact email
+    char name[20]{};    // for name
+    char email[30]{};    // for contact email
 
     public:
 
@@ -19,19 +27,21 @@ class Contact
         std::cin >> phone;
 
         std::cout << "Name: ";
-        std::getline(std::cin, name);
+        std::cin.ignore();
+        std::cin >> name;
 
         std::cout << "Email: ";
-        std::getline(std::cin, email);
+        std::cin.ignore();
+        std::cin >> email;
 
         std::cout << "\n";
     }
 
     // show contact information
     void show_contact() {
-        std::cout << "Phone #: " << phone;
-        std::cout << "Name  #: " << name;
-        std::cout << "Email #: " << email;
+        std::cout << "Phone #: " << phone << std::endl;
+        std::cout << "Name  #: " << name << std::endl;
+        std::cout << "Email #: " << email << std::endl;
     }
 
     // get the phone number
@@ -40,12 +50,12 @@ class Contact
     }
 
     // get the contact name
-    std::string getName() {
+    char* getName() {
         return name;
     }
 
     // get email address
-    std::string getEmail() {
+    char* getEmail() {
         return email;
     }
 };
@@ -60,22 +70,21 @@ void save_contact()
     fp.open("contactList.txt", std::ios::out | std::ios::app);
     contact.create_contact();
 
-    fp.write((std::string)&contact,std::size(contact));
+    fp.write((char*)&contact,sizeof(contact));
     fp.close();
 
     std::cout << std::endl << std::endl << "Contact has been successfully created." << "\n";
-
 }
 
 // to display contact on the command line
-void display_contact(long phone)
+void search_contact(long phone)
 {
     bool found{false};
     int ch{};
 
     fp.open("contactList.txt", std::ios::in);
 
-    while(fp.read((std::string) &contact, std::size(contact))) {
+    while(fp.read((char*)&contact,sizeof(contact))) {
         if (contact.getPhone() == phone) {
             contact.show_contact();
             found = true;
@@ -92,8 +101,8 @@ void display_contact(long phone)
 // to delete preferred contact
 void delete_contact()
 {
-    int number{};
     std::cout << std::endl << "Please, enter the contact #: ";
+    int number{};
     std::cin >> number;
 
     fp.open("contactList.txt", std::ios::in | std::ios::out);
@@ -101,9 +110,9 @@ void delete_contact()
     fp2.open("Temp.txt", std::ios::out);
     fp.seekg(0, std::ios::beg);
 
-    while (fp.read((std::string)&contact, std::size(contact))) {
+    while (fp.read((char*)&contact, sizeof(contact))) {
         if (contact.getPhone() != number) {
-            fp2.write((std::string)&contact, std::size(contact));
+            fp2.write((char*)&contact, sizeof(contact));
         }
     }
 
@@ -127,14 +136,14 @@ void edit_contact()
 
     fp.open("contactList.txt", std::ios::in | std::ios::out);
 
-    while(fp.read((std::string)&contact, std::size(contact)) && found == false) {
+    while(fp.read((char*)&contact, sizeof(contact)) && found == false) {
         if (contact.getPhone() == number) {
             contact.show_contact();
             std::cout << "\nPlease enter the new Details of contact: " << std::endl;
             contact.create_contact();
-            int pos=-1*std::size(contact);
+            int pos=-1*sizeof(contact);
             fp.seekp(pos, std::ios::cur);
-            fp.write((std::string)&contact, std::size(contact));
+            fp.write((char*)&contact, sizeof(contact));
             
             std::cout << std::endl << "Contact successfully update!";
             found = true;
@@ -155,7 +164,7 @@ void show_all_contacts()
     std::cout << "\n\n # List of Contacts # \n\n";
     fp.open("contactList.txt", std::ios::in);
 
-    while(fp.read((std::string)&contact, std::size(contact))) {
+    while(fp.read((char*)&contact, sizeof(contact))) {
         contact.show_contact();
         std::cout << std::endl;
     }
@@ -164,7 +173,7 @@ void show_all_contacts()
 }
 
 // the main program
-int main(int argc, char *argv[])
+int main()
 {
     for(;;) {
         std::cout << "\n\t ~~~~~~~~ Contact Management System (Command Line) ~~~~~~~~";
@@ -186,7 +195,8 @@ int main(int argc, char *argv[])
 
         switch(choice) {
             case 0: {
-                    std::cout << "Thank you for using my project. \n\nRegards,\nLoknath Dhar";
+                    std::cout << "Thank you for using my project. \n\nRegards,\nLoknath Dhar\n";
+                    std::exit(0);
             } break;
 
             case 1: {
@@ -201,7 +211,7 @@ int main(int argc, char *argv[])
                     long num{};
                     std::cout << "\nPhone: ";
                     std::cin >> num;
-                    display_contact(num);
+                    search_contact(num);
             } break;
 
             case 4: {
@@ -221,10 +231,11 @@ int main(int argc, char *argv[])
         std::cin >> option;
 
         switch(option) {
+            case 0:
+                    std::cout << "Thank you for using my project. \n\nRegards,\nLoknath Dhar\n";
+                    std::exit(0);
             case 1:
                     continue;
-            case 0:
-                    break;
         }
     }
     return 0;
