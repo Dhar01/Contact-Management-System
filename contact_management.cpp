@@ -80,7 +80,6 @@ void save_contact()
 void search_contact(long phone)
 {
     bool found{false};
-    int ch{};
 
     fp.open("contactList.txt", std::ios::in);
 
@@ -195,7 +194,7 @@ int main()
 
         switch(choice) {
             case 0: {
-                    std::cout << "Thank you for using my project. \n\nRegards,\nLoknath Dhar\n";
+                    std::cout << "\n\nThank you for using my project. \n\nRegards,\nLoknath Dhar\n";
                     std::exit(0);
             } break;
 
@@ -232,7 +231,7 @@ int main()
 
         switch(option) {
             case 0:
-                    std::cout << "Thank you for using my project. \n\nRegards,\nLoknath Dhar\n";
+                    std::cout << "\n\nThank you for using my project. \n\nRegards,\nLoknath Dhar\n";
                     std::exit(0);
             case 1:
                     continue;
