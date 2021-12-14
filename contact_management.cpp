@@ -15,48 +15,49 @@ void show_all_contacts();
 // the contact book class
 class Contact
 {
-    long phone{}; // for phone number
-    char name[20]{};    // for name
-    char email[30]{};    // for contact email
+    // using member variable with "m_" prefix
+    long m_phone {}; // for phone number
+    char m_name[20] {};    // for name
+    char m_email[30] {};    // for contact email
 
     public:
 
     // creating a new contact
     void create_contact() {
         std::cout << "Phone: ";
-        std::cin >> phone;
+        std::cin >> m_phone;
 
         std::cout << "Name: ";
         std::cin.ignore();
-        std::cin >> name;
+        std::cin >> m_name;
 
         std::cout << "Email: ";
         std::cin.ignore();
-        std::cin >> email;
+        std::cin >> m_email;
 
         std::cout << "\n";
     }
 
     // show contact information
     void show_contact() {
-        std::cout << "Phone #: " << phone << std::endl;
-        std::cout << "Name  #: " << name << std::endl;
-        std::cout << "Email #: " << email << std::endl;
+        std::cout << "Phone #: " << m_phone << std::endl;
+        std::cout << "Name  #: " << m_name << std::endl;
+        std::cout << "Email #: " << m_email << std::endl;
     }
 
     // get the phone number
     long getPhone() {
-        return phone;
+        return m_phone;
     }
 
     // get the contact name
     char* getName() {
-        return name;
+        return m_name;
     }
 
     // get email address
     char* getEmail() {
-        return email;
+        return m_email;
     }
 };
 
